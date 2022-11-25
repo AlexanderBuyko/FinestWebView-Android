@@ -20,11 +20,8 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.Animation.*
 import android.view.animation.AnimationUtils
-import android.webkit.DownloadListener
-import android.webkit.WebChromeClient
+import android.webkit.*
 import android.webkit.WebSettings.*
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
@@ -55,6 +52,9 @@ import com.thefinestartist.finestwebview.utils.TypefaceUtil
 import com.thefinestartist.finestwebview.utils.UnitConverter.dpToPx
 import com.thefinestartist.finestwebview.utils.UrlParser.getHost
 import com.thefinestartist.finestwebview.views.ShadowLayout
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 
 /**
  * Created by Leonardo on 11/14/15.
@@ -182,6 +182,7 @@ class FinestWebViewActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
   protected var webViewOffscreenPreRaster: Boolean? = null
 
   protected var injectJavaScript: String? = null
+  protected var customWebViewClient: WebViewClient? = null
 
   protected var mimeType: String? = null
   protected var encoding: String? = null
@@ -501,7 +502,7 @@ class FinestWebViewActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
     }
     run { // WebView
       webView!!.webChromeClient = MyWebChromeClient()
-      webView!!.webViewClient = MyWebViewClient()
+      webView!!.webViewClient = customWebViewClient ?: MyWebViewClient()
       webView!!.setDownloadListener(downloadListener)
       val settings = webView!!.settings
       if (webViewSupportZoom != null) {

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.webkit.WebSettings.*
+import android.webkit.WebViewClient
 import androidx.annotation.AnimRes
 import androidx.annotation.ArrayRes
 import androidx.annotation.ColorInt
@@ -149,6 +150,8 @@ data class FinestWebView(
   var webViewOffscreenPreRaster: Boolean? = null,
 
   var injectJavaScript: String? = null,
+
+  var customWebViewClient: WebViewClient? = null,
 
   var mimeType: String? = null,
   var encoding: String? = null,
@@ -423,6 +426,8 @@ data class FinestWebView(
   }
 
   fun injectJavaScript(injectJavaScript: String?) = apply { this.injectJavaScript = injectJavaScript }
+
+  fun useCustomWebViewClient(customWebViewClient: WebViewClient) = apply { this.customWebViewClient = customWebViewClient }
 
   fun load(@StringRes dataRes: Int) {
     load(context.getString(dataRes))
