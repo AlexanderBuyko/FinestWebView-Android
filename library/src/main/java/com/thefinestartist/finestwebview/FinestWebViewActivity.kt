@@ -346,6 +346,7 @@ class FinestWebViewActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
     webViewMixedContentMode = finestWebView.webViewMixedContentMode
     webViewOffscreenPreRaster = finestWebView.webViewOffscreenPreRaster
     injectJavaScript = finestWebView.injectJavaScript
+    useCustomClientWithToken = finestWebView.useCustomClientWithToken
     mimeType = finestWebView.mimeType
     encoding = finestWebView.encoding
     data = finestWebView.data
