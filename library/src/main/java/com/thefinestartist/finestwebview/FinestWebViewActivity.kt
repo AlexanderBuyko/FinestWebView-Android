@@ -52,9 +52,6 @@ import com.thefinestartist.finestwebview.utils.TypefaceUtil
 import com.thefinestartist.finestwebview.utils.UnitConverter.dpToPx
 import com.thefinestartist.finestwebview.utils.UrlParser.getHost
 import com.thefinestartist.finestwebview.views.ShadowLayout
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
 
 /**
  * Created by Leonardo on 11/14/15.
