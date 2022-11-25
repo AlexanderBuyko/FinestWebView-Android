@@ -26,6 +26,7 @@ dependencies {
     implementation deps.androidx.swiperefreshlayout
     implementation deps.material
     implementation deps.kotlin.stdlib
+    implementation deps.okhttp
 }
 
 repositories {

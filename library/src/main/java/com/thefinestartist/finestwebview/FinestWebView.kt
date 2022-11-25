@@ -151,7 +151,7 @@ data class FinestWebView(
 
   var injectJavaScript: String? = null,
 
-  var customWebViewClient: WebViewClient? = null,
+  var useCustomClientWithToken: String? = null,
 
   var mimeType: String? = null,
   var encoding: String? = null,
@@ -427,7 +427,7 @@ data class FinestWebView(
 
   fun injectJavaScript(injectJavaScript: String?) = apply { this.injectJavaScript = injectJavaScript }
 
-  fun useCustomWebViewClient(customWebViewClient: WebViewClient) = apply { this.customWebViewClient = customWebViewClient }
+  fun useCustomClientWithToken(useCustomClientWithToken: String) = apply { this.useCustomClientWithToken = useCustomClientWithToken }
 
   fun load(@StringRes dataRes: Int) {
     load(context.getString(dataRes))

@@ -179,7 +179,7 @@ class FinestWebViewActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
   protected var webViewOffscreenPreRaster: Boolean? = null
 
   protected var injectJavaScript: String? = null
-  protected var customWebViewClient: WebViewClient? = null
+  protected var useCustomClientWithToken: String? = null
 
   protected var mimeType: String? = null
   protected var encoding: String? = null
@@ -499,7 +499,7 @@ class FinestWebViewActivity : AppCompatActivity(), AppBarLayout.OnOffsetChangedL
     }
     run { // WebView
       webView!!.webChromeClient = MyWebChromeClient()
-      webView!!.webViewClient = customWebViewClient ?: MyWebViewClient()
+      webView!!.webViewClient = useCustomClientWithToken?.let(::CustomWebViewClient) ?: MyWebViewClient()
       webView!!.setDownloadListener(downloadListener)
       val settings = webView!!.settings
       if (webViewSupportZoom != null) {
