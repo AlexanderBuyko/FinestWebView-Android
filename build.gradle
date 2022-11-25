@@ -4,11 +4,11 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath deps.gradlePlugins.android
         classpath deps.gradlePlugins.kotlin
-        classpath deps.gradlePlugins.bintray
     }
 }
 

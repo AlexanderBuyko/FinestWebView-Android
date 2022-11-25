@@ -1,7 +1,6 @@
 apply from: rootProject.file('dependencies.gradle')
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -27,15 +26,6 @@ dependencies {
     implementation deps.androidx.swiperefreshlayout
     implementation deps.material
     implementation deps.kotlin.stdlib8
-}
-
-publish {
-    userOrg = 'thefinestartist'
-    groupId = 'com.thefinestartist'
-    artifactId = 'finestwebview'
-    publishVersion = versions.publishVersion
-    desc = 'Beautiful and customizable Android Activity that shows web pages within an app.'
-    website = 'https://finestwebview.com'
 }
 
 repositories {
