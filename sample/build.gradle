@@ -29,7 +29,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':library')
     implementation deps.androidx.appcompat
-    implementation deps.kotlin.stdlib8
+    implementation deps.kotlin.stdlib
     //    implementation deps.finestWebView
 }
 repositories {

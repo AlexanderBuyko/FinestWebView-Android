@@ -25,7 +25,7 @@ dependencies {
     implementation deps.androidx.coordinatorlayout
     implementation deps.androidx.swiperefreshlayout
     implementation deps.material
-    implementation deps.kotlin.stdlib8
+    implementation deps.kotlin.stdlib
 }
 
 repositories {

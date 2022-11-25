@@ -156,7 +156,7 @@ data class FinestWebView(
   var mimeType: String? = null,
   var encoding: String? = null,
   var data: String? = null,
-  var url: String? = null,
+  var url: String? = null
 ) : Serializable {
 
   constructor(ctx: Context) : this(context = ctx)

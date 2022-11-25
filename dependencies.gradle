@@ -10,7 +10,7 @@ ext.versions = [
 ext.deps = [
         gradlePlugins: [
                 android: 'com.android.tools.build:gradle:4.2.1',
-                kotlin : 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10',
+                kotlin : 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21',
         ],
 
         androidx     : [
@@ -22,7 +22,7 @@ ext.deps = [
         material     : 'com.google.android.material:material:1.3.0',
 
         kotlin       : [
-                stdlib8: 'org.jetbrains.kotlin:kotlin-stdlib-jdk8',
+                stdlib: 'org.jetbrains.kotlin:kotlin-stdlib:1.3.21',
         ],
 
         finestWebView: 'com.thefinestartist:finestwebview:' + versions.publishVersionCode
