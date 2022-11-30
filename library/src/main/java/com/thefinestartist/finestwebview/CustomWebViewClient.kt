@@ -20,7 +20,7 @@ class CustomWebViewClient(
             .build()
         val response: Response = httpClient.newCall(httpRequest).execute()
         return WebResourceResponse(
-            null, // set content-type
+            "application/octet-stream", // set content-type
             response.header("content-encoding", "utf-8"),
             response.body?.byteStream()
         )
