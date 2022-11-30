@@ -20,7 +20,7 @@ class CustomWebViewClient(
             .build()
         val response: Response = httpClient.newCall(httpRequest).execute()
         return WebResourceResponse(
-            getMimeType(requestString), // set content-type
+            null, // set content-type
             response.header("content-encoding", "utf-8"),
             response.body?.byteStream()
         )
@@ -28,22 +28,14 @@ class CustomWebViewClient(
 
     //get mime type by url
     private fun getMimeType(url: String?): String? {
-        var type: String? = null
-        val extension: String = MimeTypeMap.getFileExtensionFromUrl(url)
-        if (extension == "js") {
-            return "text/javascript"
-        } else if (extension == "woff") {
-            return "application/font-woff"
-        } else if (extension == "woff2") {
-            return "application/font-woff2"
-        } else if (extension == "ttf") {
-            return "application/x-font-ttf"
-        } else if (extension == "eot") {
-            return "application/vnd.ms-fontobject"
-        } else if (extension == "svg") {
-            return "image/svg+xml"
+        return when (val extension: String = MimeTypeMap.getFileExtensionFromUrl(url)) {
+            "js" -> "text/javascript"
+            "woff" -> "application/font-woff"
+            "woff2" -> "application/font-woff2"
+            "ttf" -> "application/x-font-ttf"
+            "eot" -> "application/vnd.ms-fontobject"
+            "svg" -> "image/svg+xml"
+            else -> MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
         }
-        type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
-        return type
     }
 }
