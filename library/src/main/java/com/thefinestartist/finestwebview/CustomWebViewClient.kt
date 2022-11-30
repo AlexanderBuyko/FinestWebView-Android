@@ -1,5 +1,6 @@
 package com.thefinestartist.finestwebview
 
+import android.util.Log
 import android.webkit.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -18,9 +19,10 @@ class CustomWebViewClient(
             .url(requestString)
             .addHeader("Authorization", token) //add headers
             .build()
-        val response: Response = httpClient.newCall(httpRequest).execute()
+        val response = httpClient.newCall(httpRequest).execute()
+        Log.d("TEST HEADERS", response.headers.toString())
         return WebResourceResponse(
-            "application/pdf", // set content-type
+            response.headers["Content-Type"], // set content-type
             response.header("content-encoding", "utf-8"),
             response.body?.byteStream()
         )
