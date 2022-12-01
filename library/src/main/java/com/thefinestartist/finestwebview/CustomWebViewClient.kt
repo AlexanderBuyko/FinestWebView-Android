@@ -14,6 +14,7 @@ import java.io.InputStream
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.FutureTask
+import kotlin.math.max
 
 class CustomWebViewClient(
     private val token: String
@@ -36,14 +37,16 @@ class CustomWebViewClient(
                 .build()
             val response = httpClient.newCall(httpRequest).execute()
             Log.d("TEST HEADERS", response.headers.toString())
-            Log.d("TEST ISSUCCESSFUL", response.isSuccessful.toString())
+            Log.d("TEST IS_SUCCESSFUL", response.isSuccessful.toString())
             okHttpResponseToWebResourceResponse(response)
         }
-        val executorService = Executors.newCachedThreadPool()
+        val threadsCount = max(64, Runtime.getRuntime().availableProcessors())
+        val executorService = Executors.newFixedThreadPool(threadsCount)
         val future = executorService.submit(callable)
         while (!future.isDone) {
             Log.d("TEST HEADERS", "Task in not done!")
         }
+        Log.d("TEST HEADERS", "Task in done!")
         return future.get()
     }
 
