@@ -12,6 +12,11 @@ import okhttp3.Response
 class CustomWebViewClient(
     private val token: String
 ): WebViewClient() {
+
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        return true
+    }
+
     override fun shouldInterceptRequest(
         view: WebView,
         request: WebResourceRequest
