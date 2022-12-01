@@ -43,11 +43,9 @@ class CustomWebViewClient(
         val threadsCount = max(64, Runtime.getRuntime().availableProcessors())
         val executorService = Executors.newFixedThreadPool(threadsCount)
         val future = executorService.submit(callable)
-        while (!future.isDone) {
-            Log.d("TEST HEADERS", "Task in not done!")
-        }
-        Log.d("TEST HEADERS", "Task in done!")
-        return future.get()
+        val result = future.get()
+        Log.d("TEST FLAG", "Task is done")
+        return result
     }
 
     /**
