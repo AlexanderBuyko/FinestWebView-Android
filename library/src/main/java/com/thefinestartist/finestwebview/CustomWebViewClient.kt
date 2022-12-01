@@ -8,12 +8,16 @@ import android.webkit.WebViewClient
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.internal.wait
 import java.io.ByteArrayInputStream
 import java.io.InputStream
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
+import java.util.concurrent.FutureTask
 
 class CustomWebViewClient(
     private val token: String
-): WebViewClient() {
+) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
         return true
@@ -23,16 +27,22 @@ class CustomWebViewClient(
         view: WebView,
         request: WebResourceRequest
     ): WebResourceResponse {
-        val requestString = request.url.toString()
-        val httpClient = OkHttpClient()
-        val httpRequest: Request = Request.Builder()
-            .url(requestString)
-            .addHeader("Authorization", token) //add headers
-            .build()
-        val response = httpClient.newCall(httpRequest).execute()
-        Log.d("TEST HEADERS", response.headers.toString())
-        Log.d("TEST isSuccessful", response.isSuccessful.toString())
-        return okHttpResponseToWebResourceResponse(response);
+        val callable = Callable {
+            val requestString = request.url.toString()
+            val httpClient = OkHttpClient()
+            val httpRequest: Request = Request.Builder()
+                .url(requestString)
+                .addHeader("Authorization", token) //add headers
+                .build()
+            val response = httpClient.newCall(httpRequest).execute()
+            Log.d("TEST HEADERS", response.headers.toString())
+            Log.d("TEST isSuccessful", response.isSuccessful.toString())
+            okHttpResponseToWebResourceResponse(response)
+        }
+        val executorService = Executors.newCachedThreadPool()
+        val future = executorService.submit(callable)
+        while (!future.isDone) {}
+        return future.get()
     }
 
     /**
