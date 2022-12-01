@@ -29,7 +29,8 @@ class CustomWebViewClient(
             .build()
         val response = httpClient.newCall(httpRequest).execute()
         Log.d("TEST HEADERS", response.headers.toString())
-        Log.d("TEST BODY", response.body!!.byteStream().toString())
+        Log.d("TEST isSuccessful", response.isSuccessful.toString())
+        Log.d("TEST body", response.body!!.string())
         return okHttpResponseToWebResourceResponse(response);
     }
 
@@ -49,7 +50,7 @@ class CustomWebViewClient(
                 WebResourceResponse(contentType, charset, resp.body!!.byteStream())
             } else {
                 Log.d("TEST CASE", "PASSED with mocked mime type")
-                WebResourceResponse("application/msword", null, resp.body!!.byteStream())
+                WebResourceResponse(contentTypeValue, null, resp.body!!.byteStream())
             }
         } else {
             WebResourceResponse("application/octet-stream", null, resp.body!!.byteStream())
