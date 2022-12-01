@@ -36,12 +36,14 @@ class CustomWebViewClient(
                 .build()
             val response = httpClient.newCall(httpRequest).execute()
             Log.d("TEST HEADERS", response.headers.toString())
-            Log.d("TEST isSuccessful", response.isSuccessful.toString())
+            Log.d("TEST ISSUCCESSFUL", response.isSuccessful.toString())
             okHttpResponseToWebResourceResponse(response)
         }
         val executorService = Executors.newCachedThreadPool()
         val future = executorService.submit(callable)
-        while (!future.isDone) {}
+        while (!future.isDone) {
+            Log.d("TEST HEADERS", "Task in not done!")
+        }
         return future.get()
     }
 
