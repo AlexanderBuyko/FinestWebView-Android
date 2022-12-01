@@ -156,7 +156,8 @@ data class FinestWebView(
   var mimeType: String? = null,
   var encoding: String? = null,
   var data: String? = null,
-  var url: String? = null
+  var url: String? = null,
+  var additionalHttpHeaders: MutableMap<String, String>? = null,
 ) : Serializable {
 
   constructor(ctx: Context) : this(context = ctx)
@@ -436,7 +437,7 @@ data class FinestWebView(
   fun load(data: String?, mimeType: String? = "text/html", encoding: String? = "UTF-8") {
     this.mimeType = mimeType
     this.encoding = encoding
-    show(null, data)
+    show(null, null, data)
   }
 
   fun show(@StringRes urlRes: Int) {
@@ -444,12 +445,17 @@ data class FinestWebView(
   }
 
   fun show(url: String) {
-    show(url, null)
+    show(url, null, null)
   }
 
-  fun show(url: String?, data: String?) {
+  fun show(url: String, additionalHttpHeaders: MutableMap<String, String>) {
+    show(url, additionalHttpHeaders, null)
+  }
+
+  fun show(url: String?, additionalHttpHeaders: MutableMap<String, String>?, data: String?) {
     this.url = url
     this.data = data
+    this.additionalHttpHeaders = additionalHttpHeaders
     key = System.identityHashCode(this)
     if (listeners.isNotEmpty()) {
       BroadCastManager(context, key!!, listeners)
