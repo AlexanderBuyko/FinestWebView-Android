@@ -8,6 +8,8 @@ import android.webkit.WebViewClient
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 
 class CustomWebViewClient(
     private val token: String
@@ -30,7 +32,6 @@ class CustomWebViewClient(
         val response = httpClient.newCall(httpRequest).execute()
         Log.d("TEST HEADERS", response.headers.toString())
         Log.d("TEST isSuccessful", response.isSuccessful.toString())
-        Log.d("TEST body", response.body!!.string())
         return okHttpResponseToWebResourceResponse(response);
     }
 
@@ -42,18 +43,22 @@ class CustomWebViewClient(
      */
     private fun okHttpResponseToWebResourceResponse(resp: Response): WebResourceResponse {
         val contentTypeValue = resp.header("Content-Type")
+        val inputStream = copyInputStream(resp.body!!.byteStream())
         return if (contentTypeValue != null) {
             if (contentTypeValue.indexOf("charset=") > 0) {
                 val contentTypeAndEncoding = contentTypeValue.split("; ").toTypedArray()
                 val contentType = contentTypeAndEncoding[0]
                 val charset = contentTypeAndEncoding[1].split("=").toTypedArray()[1]
-                WebResourceResponse(contentType, charset, resp.body!!.byteStream())
+                WebResourceResponse(contentType, charset, inputStream)
             } else {
-                Log.d("TEST CASE", "PASSED with mocked mime type")
-                WebResourceResponse(contentTypeValue, null, resp.body!!.byteStream())
+                WebResourceResponse(contentTypeValue, null, inputStream)
             }
         } else {
-            WebResourceResponse("application/octet-stream", null, resp.body!!.byteStream())
+            WebResourceResponse("application/octet-stream", null, inputStream)
         }
+    }
+
+    private fun copyInputStream(byteStream: InputStream): InputStream {
+        return ByteArrayInputStream(byteStream.readBytes())
     }
 }
