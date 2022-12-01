@@ -29,6 +29,7 @@ class CustomWebViewClient(
             .build()
         val response = httpClient.newCall(httpRequest).execute()
         Log.d("TEST HEADERS", response.headers.toString())
+        Log.d("TEST BODY", response.body!!.byteStream().toString())
         return okHttpResponseToWebResourceResponse(response);
     }
 
