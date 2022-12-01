@@ -1,7 +1,10 @@
 package com.thefinestartist.finestwebview
 
 import android.util.Log
-import android.webkit.*
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -21,23 +24,28 @@ class CustomWebViewClient(
             .build()
         val response = httpClient.newCall(httpRequest).execute()
         Log.d("TEST HEADERS", response.headers.toString())
-        return WebResourceResponse(
-            response.headers["Content-Type"], // set content-type
-            response.header("content-encoding", "utf-8"),
-            response.body?.byteStream()
-        )
+        return okHttpResponseToWebResourceResponse(response);
     }
 
-    //get mime type by url
-    private fun getMimeType(url: String?): String? {
-        return when (val extension: String = MimeTypeMap.getFileExtensionFromUrl(url)) {
-            "js" -> "text/javascript"
-            "woff" -> "application/font-woff"
-            "woff2" -> "application/font-woff2"
-            "ttf" -> "application/x-font-ttf"
-            "eot" -> "application/vnd.ms-fontobject"
-            "svg" -> "image/svg+xml"
-            else -> MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+    /**
+     * Convert OkHttp [Response] into a [WebResourceResponse]
+     *
+     * @param resp The OkHttp [Response]
+     * @return The [WebResourceResponse]
+     */
+    private fun okHttpResponseToWebResourceResponse(resp: Response): WebResourceResponse {
+        val contentTypeValue = resp.header("Content-Type")
+        return if (contentTypeValue != null) {
+            if (contentTypeValue.indexOf("charset=") > 0) {
+                val contentTypeAndEncoding = contentTypeValue.split("; ").toTypedArray()
+                val contentType = contentTypeAndEncoding[0]
+                val charset = contentTypeAndEncoding[1].split("=").toTypedArray()[1]
+                WebResourceResponse(contentType, charset, resp.body!!.byteStream())
+            } else {
+                WebResourceResponse(contentTypeValue, null, resp.body!!.byteStream())
+            }
+        } else {
+            WebResourceResponse("application/octet-stream", null, resp.body!!.byteStream())
         }
     }
 }
